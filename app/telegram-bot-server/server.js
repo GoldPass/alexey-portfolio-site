@@ -1,14 +1,17 @@
+const express = require('express');
 const { Telegraf } = require('telegraf');
 const axios = require('axios');
-require('dotenv').config();
 
+const app = express();
 const bot = new Telegraf(process.env.BOT_TOKEN);
+
+// Middleware для парсинга JSON
+app.use(express.json());
 
 // Приветственное сообщение
 bot.start((ctx) => {
     const welcomeMessage = `
 🤖 Привет! Меня зовут АИ-помощник!
-
 Я создан разработчиком Алексеем как мини ИИ-помощник на базе Google Gemini AI.
 
 ✨ Что я умею:
@@ -22,7 +25,6 @@ bot.start((ctx) => {
 
 Разработчик: @alexey_dev (Алексей)
 `;
-    
     ctx.reply(welcomeMessage);
 });
 
@@ -30,7 +32,6 @@ bot.start((ctx) => {
 bot.help((ctx) => {
     const helpMessage = `
 📖 Как использовать бота:
-
 1️⃣ Просто напишите любой вопрос
 2️⃣ Я отвечу используя ИИ Google Gemini
 3️⃣ Можете задавать follow-up вопросы
@@ -43,7 +44,6 @@ bot.help((ctx) => {
 
 ⚡ Бот работает на бесплатном API и доступен всем!
     `;
-    
     ctx.reply(helpMessage);
 });
 
@@ -120,11 +120,31 @@ bot.on('voice', (ctx) => {
     ctx.reply('🎤 Извините, я пока не умею обрабатывать голосовые сообщения. Напишите текстом!');
 });
 
-// Запуск бота
-bot.launch();
+// Роут для проверки здоровья сервера
+app.get('/', (req, res) => {
+    res.send('🤖 Telegram Bot Server is running!');
+});
 
-console.log('🤖 Бот запущен и готов к работе!');
+// Webhook для Telegram
+app.post('/webhook', (req, res) => {
+    bot.handleUpdate(req.body);
+    res.sendStatus(200);
+});
+
+// Запуск сервера
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log('🤖 Bot is ready!');
+});
 
 // Graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+process.once('SIGINT', () => {
+    console.log('Received SIGINT, shutting down gracefully');
+    process.exit(0);
+});
+
+process.once('SIGTERM', () => {
+    console.log('Received SIGTERM, shutting down gracefully');
+    process.exit(0);
+});
