@@ -1,1 +1,3 @@
-declare module "@/app/components/*";
+declare module '*.css';
+declare module '*.scss';
+declare module '*.sass';
