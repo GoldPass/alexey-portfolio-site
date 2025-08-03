@@ -1,5 +1,4 @@
-import "./globals.css";
-import Footer from "./components/Footer";
+import "./globals.css";  
 
 export const metadata = {
   title: "Портфолио разработчика",
@@ -15,7 +14,6 @@ export default function RootLayout({
     <html lang="ru">
       <body className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
         <main className="pt-4 pb-32 pl-4">{children}</main>
-        <Footer />
       </body>
     </html>
   );
