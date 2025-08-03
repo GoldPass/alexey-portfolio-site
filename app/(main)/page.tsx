@@ -14,42 +14,82 @@ function ProjectCard({ title, tech, link }: ProjectCardProps) {
 
   return (
     <div
-      className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 transition-all duration-500 cursor-pointer group"
       style={{
-        transform: isHovered ? "translateY(-8px)" : "translateY(0)",
+        backgroundColor: "white",
+        borderRadius: "1.5rem",
+        padding: "2rem",
         boxShadow: isHovered 
           ? "0 25px 50px rgba(0, 0, 0, 0.15)" 
-          : "0 4px 20px rgba(0, 0, 0, 0.1)"
+          : "0 4px 20px rgba(0, 0, 0, 0.1)",
+        border: "1px solid #e5e7eb",
+        transition: "all 0.4s ease",
+        cursor: "pointer",
+        transform: isHovered ? "translateY(-8px)" : "translateY(0)",
+        position: "relative" as const,
+        overflow: "hidden" as const,
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Анимированная полоска сверху */}
       <div 
-        className="h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-500 mb-6"
         style={{
-          transform: isHovered ? "scaleX(1)" : "scaleX(0)",
-          transformOrigin: "left"
+          position: "absolute" as const,
+          top: 0,
+          left: 0,
+          height: "4px",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          borderRadius: "2px",
+          transition: "all 0.4s ease",
+          width: isHovered ? "100%" : "0%",
         }}
       />
       
-      <h3 className="text-xl font-semibold text-gray-800 mb-4 group-hover:text-indigo-600 transition-colors duration-300">
+      <h3
+        style={{
+          fontSize: "1.5rem",
+          fontWeight: "600",
+          color: isHovered ? "#667eea" : "#111827",
+          marginBottom: "1rem",
+          marginTop: "0.5rem",
+          transition: "color 0.3s ease",
+        }}
+      >
         {title}
       </h3>
       
-      <p className="text-gray-600 mb-6 leading-relaxed">
+      <p
+        style={{
+          color: "#6b7280",
+          marginBottom: "1.5rem",
+          fontSize: "1rem",
+          lineHeight: "1.6",
+        }}
+      >
         {tech}
       </p>
       
       <Link 
         href={link}
-        className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 font-medium transition-all duration-300"
         style={{
-          transform: isHovered ? "translateX(5px)" : "translateX(0)"
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          color: "#667eea",
+          textDecoration: "none",
+          fontWeight: "500",
+          fontSize: "1rem",
+          transition: "all 0.3s ease",
+          transform: isHovered ? "translateX(5px)" : "translateX(0)",
         }}
       >
         Подробнее 
-        <span className="transition-transform duration-300 group-hover:translate-x-1">
+        <span 
+          style={{
+            transition: "transform 0.3s ease",
+            transform: isHovered ? "translateX(3px)" : "translateX(0)",
+          }}
+        >
           →
         </span>
       </Link>
@@ -77,41 +117,112 @@ const projects = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <>
       {/* Hero секция */}
-      <section className="text-center py-20 px-4 bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-3xl mx-4 mt-4 mb-8 shadow-xl">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6 leading-tight">
-            Привет, я Алексей
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-600 font-medium">
-            Full-stack разработчик
-          </p>
-          
-          {/* Декоративные элементы */}
-          <div className="flex justify-center gap-4 mt-8">
-            <div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></div>
-            <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse delay-75"></div>
-            <div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse delay-150"></div>
-          </div>
+      <section 
+        style={{
+          textAlign: "center" as const,
+          padding: "6rem 2rem",
+          background: "linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%)",
+          margin: "2rem auto",
+          borderRadius: "2rem",
+          maxWidth: "1200px",
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05)",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "3.5rem",
+            fontWeight: "700",
+            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            marginBottom: "1rem",
+            letterSpacing: "-0.02em",
+            lineHeight: "1.2",
+          }}
+        >
+          Привет, я Алексей
+        </h1>
+        <p
+          style={{
+            fontSize: "1.4rem",
+            color: "#6b7280",
+            fontWeight: "500",
+          }}
+        >
+          Full-stack разработчик
+        </p>
+        
+        {/* Декоративные точки */}
+        <div 
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "1rem",
+            marginTop: "2rem",
+          }}
+        >
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              style={{
+                width: "8px",
+                height: "8px",
+                backgroundColor: i % 2 === 0 ? "#667eea" : "#764ba2",
+                borderRadius: "50%",
+                animation: `pulse 2s infinite ${i * 0.3}s`,
+              }}
+            />
+          ))}
         </div>
       </section>
 
       {/* Проекты */}
-      <section className="max-w-7xl mx-auto px-4 pb-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">
-            Мои проекты
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto"></div>
-        </div>
+      <section 
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "2rem",
+        }}
+      >
+        <h2
+          style={{
+            fontSize: "2.5rem",
+            fontWeight: "700",
+            color: "#1f2937",
+            marginBottom: "3rem",
+            textAlign: "left" as const,
+            position: "relative" as const,
+          }}
+        >
+          Мои проекты
+          <div
+            style={{
+              position: "absolute" as const,
+              bottom: "-0.5rem",
+              left: 0,
+              width: "100px",
+              height: "4px",
+              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              borderRadius: "2px",
+            }}
+          />
+        </h2>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+            gap: "2.5rem",
+          }}
+        >
           {projects.map((project, index) => (
             <div 
               key={index}
               style={{
-                animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
+                animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
               }}
             >
               <ProjectCard
@@ -135,7 +246,26 @@ export default function Home() {
             transform: translateY(0);
           }
         }
+        
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          h1 {
+            font-size: 2.5rem !important;
+          }
+          section {
+            padding: 4rem 1rem !important;
+            margin: 1rem !important;
+          }
+        }
       `}</style>
-    </div>
+    </>
   );
 }
