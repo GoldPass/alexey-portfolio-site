@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 // Компонент ProjectCard прямо в этом файле
@@ -9,66 +11,12 @@ interface ProjectCardProps {
 
 function ProjectCard({ title, tech, link }: ProjectCardProps) {
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        borderRadius: "1rem",
-        padding: "2rem",
-        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-        border: "1px solid #e5e7eb",
-        transition: "all 0.3s ease",
-        cursor: "pointer",
-      }}
-      onMouseEnter={(e) => {
-        const target = e.currentTarget;
-        target.style.transform = "translateY(-5px)";
-        target.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.15)";
-      }}
-      onMouseLeave={(e) => {
-        const target = e.currentTarget;
-        target.style.transform = "translateY(0)";
-        target.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.1)";
-      }}
-    >
-      <h3
-        style={{
-          fontSize: "1.5rem",
-          fontWeight: "600",
-          color: "#111827",
-          marginBottom: "1rem",
-        }}
-      >
-        {title}
-      </h3>
-      <p
-        style={{
-          color: "#6b7280",
-          marginBottom: "1.5rem",
-          fontSize: "1rem",
-        }}
-      >
-        {tech}
-      </p>
+    <div className="bg-white rounded-lg p-8 shadow-lg border border-gray-200 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-xl cursor-pointer">
+      <h3 className="text-xl font-semibold text-gray-800 mb-4">{title}</h3>
+      <p className="text-gray-600 mb-6">{tech}</p>
       <Link
         href={link}
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          color: "#3b82f6",
-          textDecoration: "none",
-          fontWeight: "500",
-          fontSize: "1rem",
-          transition: "color 0.2s",
-        }}
-        onMouseEnter={(e) => {
-          const target = e.target as HTMLAnchorElement;
-          target.style.color = "#1d4ed8";
-        }}
-        onMouseLeave={(e) => {
-          const target = e.target as HTMLAnchorElement;
-          target.style.color = "#3b82f6";
-        }}
+        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors"
       >
         Подробнее →
       </Link>
